@@ -18,18 +18,19 @@ Below 18.5: Underweight
 
 """
 
+weight = float(input("Weight: "))
+height = float(input("Height: "))
+bmi = weight / height ** 2
+print("Your BMI:", bmi)
 
-"""
+if bmi < 18.5:
+    print("Underweight")
 
-Question 2: Currency Converter (20 points)
+if bmi >= 18.5 and bmi <= 24.9:
+    print("Normal weight")
 
-Write a program that converts between Thai Baht (THB) and US Dollars (USD).
-Requirements:
+if bmi >= 25.0 and bmi <= 29.9:
+    print("Overweight")
 
-Ask user to choose conversion direction (THB to USD or USD to THB)
-Ask for the amount to convert
-Use exchange rate: 1 USD = 35.5 THB
-Display result with 2 decimal places
-Show the calculation formula used
-
-"""
+if bmi >= 30.0:
+    print("Obese")
