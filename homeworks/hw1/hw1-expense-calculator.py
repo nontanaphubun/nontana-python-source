@@ -1,37 +1,45 @@
-income = float(input("กรอกรายได้ต่อเดือน (บาท): "))
-rent = float(input("กรอกค่าเช่าบ้าน (บาท): "))
-food = int(input("กรอกค่ากินต่อเดือน (บาท): "))
-transport = float(input("กรอกค่าเดินทาง (บาท): "))
-entertain = int(input("กรอกค่าพักผ่อนต่อเดือน (บาท): "))
-emergency_percent = float(input("กรอกเปอร์เซ็นต์เผื่อเงินฉุกเฉิน: "))
-invest_percent = float(input("กรอกเปอร์เซ็นต์เงินลงทุน: "))
+"""
+Personal Finance Calculator
+Student: [Nontana Phubun]
+Date: [28 july]
+Purpose: Calculate monthly budget and savings
+"""
 
-fixed = rent + transport
+monthly_income = float(input("Enter your monthly income (THB): "))
+rent_cost = float(input("Enter your rent or housing cost (THB): "))
+food_budget = int(input("Enter your monthly food budget (THB): "))
+transportation_cost = float(input("Enter your monthly transportation cost (THB): "))
+entertainment_budget = int(input("Enter your entertainment budget (THB): "))
+emergency_fund_percent = float(input("Enter percentage for emergency fund (e.g., 10.0): "))
+investment_percent = float(input("Enter percentage for investment (e.g., 15.0): "))
 
-variable = food + entertain
+total_fixed_expenses = rent_cost + transportation_cost
 
-total = fixed + variable
+total_variable_expenses = food_budget + entertainment_budget
 
-remaining = income - total
+total_expenses = total_fixed_expenses + total_variable_expenses
 
-emergency = income * (emergency_percent / 100)
-invest = income * (invest_percent / 100)
+remaining_income = monthly_income - total_expenses
 
-savings = remaining - emergency - invest
+emergency_fund_amount = monthly_income * (emergency_fund_percent / 100)
 
-expense_ratio = (total / income) * 100
+investment_amount = monthly_income * (investment_percent / 100)
 
-print("\n=== รายงานงบประมาณรายเดือน ===")
-print(f"รายได้: {income:.2f} บาท")
-print(f"ค่าใช้จ่ายคงที่: {fixed:.2f} บาท")
-print(f"ค่าใช้จ่ายไม่คงที่: {variable:.2f} บาท")
-print(f"ค่าใช้จ่ายทั้งหมด: {total:.2f} บาท")
-print(f"รายได้คงเหลือ: {remaining:.2f} บาท")
+available_for_savings = remaining_income - emergency_fund_amount - investment_amount
 
-print("\n=== การออมเงิน ===")
-print(f"เงินฉุกเฉิน ({emergency_percent}%): {emergency:.2f} บาท")
-print(f"เงินลงทุน ({invest_percent}%): {invest:.2f} บาท")
-print(f"เงินที่เก็บออมได้: {savings:.2f} บาท")
+expense_ratio = (total_expenses / monthly_income) * 100
 
-print("\n=== วิเคราะห์ ===")
-print(f"สัดส่วนค่าใช้จ่ายต่อรายได้: {expense_ratio:.2f}%")
+print("\n=== MONTHLY BUDGET REPORT ===")
+print(f"Income: {monthly_income:.2f} THB")
+print(f"Fixed Expenses: {total_fixed_expenses:.2f} THB")
+print(f"Variable Expenses: {total_variable_expenses:.2f} THB")
+print(f"Total Expenses: {total_expenses:.2f} THB")
+print(f"Remaining: {remaining_income:.2f} THB")
+
+print("\n=== SAVINGS BREAKDOWN ===")
+print(f"Emergency Fund ({emergency_fund_percent}%): {emergency_fund_amount:.2f} THB")
+print(f"Investment ({investment_percent}%): {investment_amount:.2f} THB")
+print(f"Available for Savings: {available_for_savings:.2f} THB")
+
+print("\n=== ANALYSIS ===")
+print(f"Expense Ratio: {expense_ratio:.2f}%")
