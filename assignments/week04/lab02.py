@@ -22,23 +22,28 @@ def number_operations():
     print("Enter 10 numbers:")
     for i in range(10):
         # Your code here
-        pass
+        num = float(input(f"Number {i+1}: "))  
+        numbers.append(num)  
     
     # Display original list
     print(f"Original numbers: {numbers}")
     
     # Create filtered lists
-    even_numbers = # Your code here
-    odd_numbers = # Your code here
+    even_numbers = [n for n in numbers if n % 2 == 0] # Your code here
+    odd_numbers = [n for n in numbers if n % 2 != 0] # Your code here
     
     # Calculate average
-    average = # Your code here
-    
-    # Numbers greater than average
-    above_average = # Your code here
-    
-    # Display results
-    # Your code here
+    total = sum(numbers)
+    average = total / len(numbers) # Your code here
+    above_average = [n for n in numbers if n > average]
+
+    print(f"Even numbers: {even_numbers}")
+    print(f"Odd numbers: {odd_numbers}")
+    print(f"Numbers greater than average ({average}): {above_average}")
+    print(f"Sum: {total}")
+    print(f"Average: {average}")
+    print(f"Min: {min(numbers)}")
+    print(f"Max: {max(numbers)}")
 
 if __name__ == "__main__":
     number_operations()
