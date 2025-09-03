@@ -1,159 +1,180 @@
-""" เขียน function ชื่อ welcome_message ที่มีคุณสมบัติดังนี้:
-รับ parameter 2 ตัว คือ name และ course
-return ข้อความต้อนรับในรูปแบบ string
-รูปแบบ: "Welcome [name] to [course] class!"
-"""
-def welcome_message(name, course):
-    return f"Welcome {name} to {course} class!"
-
-
-""" เขียน function ชื่อ calculate_circle ที่มีคุณสมบัติดังนี้:
-รับ parameter 1 ตัว คือ radius
-return dictionary ที่มี area และ circumference
-ใช้ค่า π = 3.14159
-ปัดเศษทั้งสองค่าให้เหลือ 2 ตำแหน่งหลังจุดทศนิยม
-"""
-def calculate_circle(radius):
-    pi = 3.14159
-    area = round(pi * radius * radius, 2)
-    circumference = round(2 * pi * radius, 2)
-    return {
-        "area": area,
-        "circumference": circumference
+def contact_book():
+    """
+    Contact management system using dictionaries
+    Each contact: {"name": str, "phone": str, "email": str, "category": str}
+    """
+    
+    contacts = {
+        "John Doe": {"phone": "123-456-7890", "email": "john@example.com", "category": "friend"},
+        "Jane Smith": {"phone": "987-654-3210", "email": "jane@example.com", "category": "work"},
     }
+    
+    def add_contact():
+        """Add a new contact to the address book"""
+        print("\n=== Add New Contact ===")
+        name = input("Enter contact name: ").strip()
+        
+        if name in contacts:
+            print("Contact already exists.")
+            choice = input("Do you want to update it? (y/n): ").strip().lower()
+            if choice != 'y':
+                return
 
+        phone = input("Enter phone number: ").strip()
+        email = input("Enter email address: ").strip()
+        category = input("Enter category (family/friend/work/other): ").strip().lower()
+        
+        contact_info = {
+            "phone": phone,
+            "email": email,
+            "category": category
+        }
+        
+        contacts[name] = contact_info
+        print(f"Contact '{name}' added/updated successfully!")
+    
+    def view_contact():
+        """View details of a specific contact"""
+        print("\n=== View Contact ===")
+        
+        if not contacts:
+            print("No contacts found!")
+            return
+        
+        name = input("Enter contact name to view: ").strip()
+        
+        if name in contacts:
+            contact = contacts[name]
+            print(f"\nName: {name}")
+            print(f"Phone: {contact['phone']}")
+            print(f"Email: {contact['email']}")
+            print(f"Category: {contact['category']}")
+        else:
+            print(f"Contact '{name}' not found.")
+    
+    def search_contacts():
+        """Search contacts by name, phone, or email"""
+        print("\n=== Search Contacts ===")
+        
+        if not contacts:
+            print("No contacts found!")
+            return
+        
+        search_term = input("Enter search term (name/phone/email): ").strip().lower()
+        found_contacts = []
 
-""" เขียน function ชื่อ create_user_profile ที่มีคุณสมบัติดังนี้:
-รับ parameters: username (จำเป็น), age (ค่าเริ่มต้น 18), premium (ค่าเริ่มต้น False)
-return string ที่จัดรูปแบบข้อมูลผู้ใช้
-รูปแบบ: "[username] (age: [age]) - [Premium User / Standard User]"
-"""
-def create_user_profile(username, age=18, premium=False):
-    status = "Premium User" if premium else "Standard User"
-    return f"{username} (age: {age}) - {status}"
+        for name, info in contacts.items():
+            if (search_term in name.lower() or
+                search_term in info['phone'].lower() or
+                search_term in info['email'].lower()):
+                found_contacts.append((name, info))
+        
+        if found_contacts:
+            print(f"\nFound {len(found_contacts)} contact(s):")
+            print(f"{'Name':<20} {'Phone':<15} {'Email':<25} {'Category':<10}")
+            print("-" * 70)
+            for name, info in found_contacts:
+                print(f"{name:<20} {info['phone']:<15} {info['email']:<25} {info['category']:<10}")
+        else:
+            print("No contacts found matching your search.")
+    
+    def list_all_contacts():
+        """Display all contacts in a formatted way"""
+        print("\n=== All Contacts ===")
+        
+        if not contacts:
+            print("No contacts found!")
+            return
+        
+        print(f"{'Name':<20} {'Phone':<15} {'Email':<25} {'Category':<10}")
+        print("-" * 70)
+        for name, info in contacts.items():
+            print(f"{name:<20} {info['phone']:<15} {info['email']:<25} {info['category']:<10}")
+    
+    def update_contact():
+        """Update an existing contact"""
+        print("\n=== Update Contact ===")
+        
+        if not contacts:
+            print("No contacts found!")
+            return
+        
+        name = input("Enter contact name to update: ").strip()
+        
+        if name in contacts:
+            contact = contacts[name]
+            print(f"Current info for '{name}':")
+            print(f"1. Phone: {contact['phone']}")
+            print(f"2. Email: {contact['email']}")
+            print(f"3. Category: {contact['category']}")
+            print("Which field do you want to update? (1/2/3/all): ")
+            choice = input().strip().lower()
 
-
-""" เขียน function ชื่อ analyze_scores ที่มีคุณสมบัติดังนี้:
-รับ list ของคะแนน (ตัวเลข)
-return dictionary ที่มี:
-total: ผลรวมของคะแนนทั้งหมด
-average: คะแนนเฉลี่ย (ปัดเศษ 1 ตำแหน่งหลังจุดทศนิยม)
-highest: คะแนนสูงสุด
-lowest: คะแนนต่ำสุด
-passed: จำนวนคะแนนที่ >= 70
-"""
-def analyze_scores(scores):
-    total = sum(scores)
-    count = len(scores)
-    average = round(total / count, 1)
-    lowest = min(scores)
-    highest = max(scores)
-    passed = sum(1 for score in scores if score >= 70)
-    return {
-        "total": total,
-        "average": average,
-        "lowest": lowest,
-        "highest": highest,
-        "passed": passed
-    }
-
-
-""" เขียน function ชื่อ count_vowels_consonants ที่มีคุณสมบัติดังนี้:
-รับ parameter text เป็น string
-นับสระ (a, e, i, o, u) และพยัญชนะ (ไม่นับช่องว่างและตัวเลข)
-return dictionary ที่มี vowels และ consonants counts
-ไม่สนใจตัวใหญ่ตัวเล็ก (case insensitive)
-"""
-def count_vowels_consonants(text):
-    vowels_set = {'a', 'e', 'i', 'o', 'u'}
-    vowels = 0
-    consonants = 0
-
-    for char in text.lower():
-        if char.isalpha():
-            if char in vowels_set:
-                vowels += 1
+            if choice in ['1', 'all']:
+                contact['phone'] = input("Enter new phone number: ").strip()
+            if choice in ['2', 'all']:
+                contact['email'] = input("Enter new email address: ").strip()
+            if choice in ['3', 'all']:
+                contact['category'] = input("Enter new category: ").strip().lower()
+            
+            print(f"Contact '{name}' updated successfully.")
+        else:
+            print(f"Contact '{name}' not found.")
+    
+    def delete_contact():
+        """Delete a contact"""
+        print("\n=== Delete Contact ===")
+        
+        if not contacts:
+            print("No contacts found!")
+            return
+        
+        name = input("Enter contact name to delete: ").strip()
+        
+        if name in contacts:
+            confirm = input(f"Are you sure you want to delete '{name}'? (y/n): ").strip().lower()
+            if confirm == 'y':
+                del contacts[name]
+                print(f"Contact '{name}' deleted.")
             else:
-                consonants += 1
+                print("Deletion cancelled.")
+        else:
+            print(f"Contact '{name}' not found.")
+    
+    # Main menu loop
+    while True:
+        print("\n" + "="*50)
+        print("           CONTACT BOOK MANAGER")
+        print("="*50)
+        print("1. Add Contact")
+        print("2. View Contact")
+        print("3. Search Contacts")
+        print("4. List All Contacts")
+        print("5. Update Contact")
+        print("6. Delete Contact")
+        print("7. Exit")
+        print("-"*50)
+        
+        choice = input("Enter your choice (1-7): ").strip()
+        
+        if choice == "1":
+            add_contact()
+        elif choice == "2":
+            view_contact()
+        elif choice == "3":
+            search_contacts()
+        elif choice == "4":
+            list_all_contacts()
+        elif choice == "5":
+            update_contact()
+        elif choice == "6":
+            delete_contact()
+        elif choice == "7":
+            print("Thank you for using Contact Book Manager!")
+            break
+        else:
+            print("Invalid choice! Please enter a number between 1-7.")
 
-    return {
-        "vowels": vowels,
-        "consonants": consonants
-    }
-
-# =============================================================================
-# TEST SECTION - DO NOT MODIFY
-# =============================================================================
-
-def run_all_tests():
-    """Test all functions and display results"""
-    print("="*50)
-    print("PYTHON FUNCTIONS QUIZ - TEST RESULTS")
-    print("="*50)
-    
-    # Test Problem 1
-    print("\n--- Problem 1 Tests ---")
-    try:
-        result1 = welcome_message("Alice", "Python")
-        print(f"Test 1: {result1}")
-        result2 = welcome_message("Bob", "Data Science")
-        print(f"Test 2: {result2}")
-        print("✓ Problem 1: PASSED")
-    except Exception as e:
-        print(f"✗ Problem 1: ERROR - {e}")
-    
-    # Test Problem 2
-    print("\n--- Problem 2 Tests ---")
-    try:
-        result1 = calculate_circle(5)
-        print(f"Test 1: {result1}")
-        result2 = calculate_circle(3)
-        print(f"Test 2: {result2}")
-        print("✓ Problem 2: PASSED")
-    except Exception as e:
-        print(f"✗ Problem 2: ERROR - {e}")
-    
-    # Test Problem 3
-    print("\n--- Problem 3 Tests ---")
-    try:
-        result1 = create_user_profile("john_doe")
-        print(f"Test 1: {result1}")
-        result2 = create_user_profile("alice", 25)
-        print(f"Test 2: {result2}")
-        result3 = create_user_profile("bob", 30, True)
-        print(f"Test 3: {result3}")
-        print("✓ Problem 3: PASSED")
-    except Exception as e:
-        print(f"✗ Problem 3: ERROR - {e}")
-    
-    # Test Problem 4
-    print("\n--- Problem 4 Tests ---")
-    try:
-        scores1 = [85, 92, 78, 65, 88, 76, 95]
-        result1 = analyze_scores(scores1)
-        print(f"Test 1: {result1}")
-        scores2 = [45, 67, 89, 72, 58]
-        result2 = analyze_scores(scores2)
-        print(f"Test 2: {result2}")
-        print("✓ Problem 4: PASSED")
-    except Exception as e:
-        print(f"✗ Problem 4: ERROR - {e}")
-    
-    # Test Problem 5
-    print("\n--- Problem 5 Tests ---")
-    try:
-        result1 = count_vowels_consonants("Hello World")
-        print(f"Test 1: {result1}")
-        result2 = count_vowels_consonants("Python Programming 2024")
-        print(f"Test 2: {result2}")
-        print("✓ Problem 5: PASSED")
-    except Exception as e:
-        print(f"✗ Problem 5: ERROR - {e}")
-    
-    print("\n" + "="*50)
-    print("END OF TESTS")
-    print("="*50)
-
-# Run the tests
 if __name__ == "__main__":
-    run_all_tests()
+    print("Starting Contact Book Manager...")
+    contact_book()
