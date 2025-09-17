@@ -8,3 +8,8 @@ class ClassName:
     def method_name(self):
         # Instance method
         return something
+
+
+myObj = ClassName(parameters)
+print(myObj.attribute)
+resultFromMethod = myObj.method_name()
